@@ -1,13 +1,21 @@
 node {
+
+
+environment {
+    registry = "kalyankkc/capstoneproject"
+    registryCredential = 'kalyan-dockerhub'
+  }
+
  try  {
  notify('Job Started') 
 
      
   stage('Git-Checkout') {
-   git 'https://github.com/kalyankkc/Bikes-Brands.git'
+  sh 'rm -rf code_repo'
+  sh 'git clone https://github.com/kalyankkc/code_repo.git'
   }
     
- def project_path="Bikes/"
+ def project_path="code_repo/Bikes/"
  
  dir(project_path) {
     
@@ -36,13 +44,50 @@ node {
   
     stage('Archive-Artifacts') {
    archiveArtifacts 'target/*.war'
-  }
+  }  
   
-      
+      stage('Jfrog Artifacory'){
+        def server= Artifactory.server 'Jfrog'
+            def uploadSpec= """{
+                "files": [{
+                "pattern": "target/*.war",
+                "target": "project-warfile"}]
+            }"""
+            server.upload(uploadSpec)
+    }
+  
+  
+}
+   def docker_path="code_repo/docker/"
+ dir(docker_path) {
+    stage('Download from Jfrog'){
+        def server= Artifactory.server 'Jfrog'
+            def downloadSpec = """{
+                "files": [{
+                "pattern": "project-warfile/*.war",
+                "target": "jfrogdownload/" }]
+            }"""
+        server.download(downloadSpec)
+   }
+   
+   
+   
    stage('Docker-Stage-Deployment') {
    sh label: '', script: 'docker-compose up -d --build'
   }
- 
+  
+   stage('Pushing DockerImage to DockerHub') {
+	  docker.withRegistry('', 'kalyan-dockerhub' ) {
+		    sh label: '', script: 'docker push kalyankkc/capstoneproject:$BUILD_NUMBER'
+		  }
+  }
+  
+  
+  
+}
+  
+
+
 notify('Job Completed')   
 } catch (err) {
   notify("Error ${err}")
