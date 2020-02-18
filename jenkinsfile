@@ -81,10 +81,19 @@ environment {
 		    sh label: '', script: 'docker push kalyankkc/capstoneproject:$BUILD_NUMBER'
 		  }
   }
-  
-  
-  
 }
+  
+  
+    stage('Production - Provisioning Approval') {
+  	input "Start provisioning the production server?"
+  }
+  stage('Downstream Build -- Docker Deployment'){
+	 build ''Terraform-Job
+	}
+  
+  
+  
+
   
 
 
