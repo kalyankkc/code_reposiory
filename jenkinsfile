@@ -88,15 +88,9 @@ environment {
   	input "Start provisioning the production server?"
   }
   stage('Downstream Build -- Docker Deployment'){
-	 build ''Terraform-Job
+	 build 'Terraform-Job'
 	}
   
-  
-  
-
-  
-
-
 notify('Job Completed')   
 } catch (err) {
   notify("Error ${err}")
