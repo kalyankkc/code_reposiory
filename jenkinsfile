@@ -50,11 +50,7 @@ environment {
    stage('Maven-Package') {
    sh label: '', script: 'mvn package'
   }
-  
-    stage('Archive-Artifacts') {
-   archiveArtifacts 'target/*.war'
-  }  
-  
+    
       stage('Jfrog Artifacory'){
         def server= Artifactory.server 'Jfrog'
             def uploadSpec= """{
@@ -70,7 +66,7 @@ environment {
    def docker_path="code_repo/docker/"
  dir(docker_path) {
    
-   stage('Docker-Stage-Deployment') {
+   stage('Test-Sever-Deployment') {
    
         def server= Artifactory.server 'Jfrog'
             def downloadSpec = """{
@@ -92,10 +88,10 @@ environment {
 }
   
   
-    stage('Production - Provisioning Approval') {
+    stage('Infrastructure for producion environment - Provisioning Approval') {
   	input "Start provisioning the production server?"
   }
-  stage('Downstream Build -- Docker Deployment'){
+  stage('Downstream Build -- Infrastruture Provisioning in AWS Cloud'){
 	 build 'Terraform-Job'
 	}
   
