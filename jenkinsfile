@@ -69,7 +69,9 @@ environment {
 }
    def docker_path="code_repo/docker/"
  dir(docker_path) {
-    stage('Download from Jfrog'){
+   
+   stage('Docker-Stage-Deployment') {
+   
         def server= Artifactory.server 'Jfrog'
             def downloadSpec = """{
                 "files": [{
@@ -77,11 +79,8 @@ environment {
                 "target": "jfrogdownload/" }]
             }"""
         server.download(downloadSpec)
-   }
    
    
-   
-   stage('Docker-Stage-Deployment') {
    sh label: '', script: 'docker-compose up -d --build'
   }
   
