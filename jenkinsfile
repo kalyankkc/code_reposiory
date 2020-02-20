@@ -88,7 +88,7 @@ environment {
 }
   
   
-    stage('Infrastructure for producion environment - Provisioning Approval') {
+    stage('Infrastructure for Producion - Provisioning Approval') {
   	input "Start provisioning the production server?"
   }
   stage('Downstream Build -- Infrastruture Provisioning in AWS Cloud'){
