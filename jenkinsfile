@@ -75,7 +75,7 @@ node {
   }
   
    stage('Pushing DockerImage to DockerHub') {
-	  docker.withRegistry('', "kalyan-dockerhub ) {
+	  docker.withRegistry('', 'kalyan-dockerhub' ) {
 		     script: 'docker push kalyankkc/capstoneproject:$BUILD_NUMBER'
 		  }
   }
