@@ -1,11 +1,5 @@
 node {
 
-
-environment {
-    registry = "kalyankkc/capstoneproject"
-    registryCredential = 'kalyan-dockerhub'
-  }
-
  try  {
  notify('Job Started') 
 
