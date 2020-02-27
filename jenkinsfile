@@ -20,17 +20,12 @@ environment {
  dir(project_path) {
     
   stage('Maven-Clean') {
-   sh label: '', script: 'mvn clean'
+   sh label: 'maven clean', script: 'mvn clean'
   }
     
  stage('Maven-Compile') {
-   sh label: '', script: 'mvn compile'
+   sh label: 'maven compile', script: 'mvn compile'
   }
-  
-   stage('Maven-Test') {
-   sh label: '', script: 'mvn test'
-  }
-  
 
    stage('sonar') {
         withSonarQubeEnv('sonarqube') {
@@ -46,9 +41,14 @@ environment {
             }
         }
       }
+      
+        
+   stage('Maven-Test') {
+   sh label: 'maven test ', script: 'mvn test'
+  }
   
    stage('Maven-Package') {
-   sh label: '', script: 'mvn package'
+   sh label: 'maven package', script: 'mvn package'
   }
     
       stage('Jfrog Artifacory'){
@@ -82,7 +82,7 @@ environment {
   
    stage('Pushing DockerImage to DockerHub') {
 	  docker.withRegistry('', 'kalyan-dockerhub' ) {
-		    sh label: '', script: 'docker push kalyankkc/capstoneproject:$BUILD_NUMBER'
+		     script: 'docker push kalyankkc/capstoneproject:$BUILD_NUMBER'
 		  }
   }
 }
