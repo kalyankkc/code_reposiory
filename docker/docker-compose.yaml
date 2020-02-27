@@ -3,7 +3,7 @@ version: '2'
 
 services:
   bike-brands:
-    image: ${registry}:$BUILD_NUMBER
+    image: registry:$BUILD_NUMBER
     build: . 
     container_name: capstoneproject
     ports:
