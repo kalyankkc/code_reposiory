@@ -86,7 +86,7 @@ node {
   	input "Start provisioning the production server?"
   }
   stage('Downstream Build -- Infrastruture Provisioning in AWS Cloud'){
-	 build 'Terraform-Job'
+	 build 'capstone301_terraform'
 	}
   
 notify('Job Completed')   
