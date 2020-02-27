@@ -81,8 +81,8 @@ environment {
   }
   
    stage('Pushing DockerImage to DockerHub') {
-	  docker.withRegistry('', '${registryCredential}' ) {
-		     script: 'docker push ${registry}:$BUILD_NUMBER'
+	  docker.withRegistry('', registryCredential ) {
+		     script: 'docker push registry :$BUILD_NUMBER'
 		  }
   }
 }
